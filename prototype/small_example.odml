@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet  type="text/xsl" href="odmlTerms.xsl"?>
+<?xml-stylesheet  type="text/xsl" href="odml.xsl"?>
+<odML version="1">
+  <date>2012-04-28</date>
+  <section>
+    <definition>Specification of the recorded cell. A cell definition should be a subsection of the</definition>
+    <property>
+      <definition>The type of the recorded cell. E.g. pyramidal cell.</definition>
+      <value>Pyramidal<type>string</type></value>
+      <name>Type</name>
+    </property>
+    <property>
+      <definition>The name of the layer. For example, layer 4 in CA1.</definition>
+      <value>4<type>string</type></value>
+      <name>Layer</name>
+    </property>
+    <property>
+      <definition>How was the cell identified?</definition>
+      <value>Eye<type>string</type></value>
+      <name>Identification</name>
+    </property>
+    <property>
+      <definition>A comment on the cell.</definition>
+      <value>Cool Cell<type>text</type></value>
+      <name>Comment</name>
+    </property>
+    <name>Cell</name>
+    <include>http://portal.g-node.org/odml/terminologies/v1.0/cell/cell.xml</include>
+    <type>cell</type>
+  </section>
+  <section>
+    <definition>Information about the project.</definition>
+    <property>
+      <definition>A descriptive text of the 
+         project topic.</definition>
+      <value>NERD<type>text</type></value>
+      <name>Topic</name>
+    </property>
+    <property>
+      <definition>The name or identifier of the grant funding this project.</definition>
+      <value>Google<definition></definition><type>string</type></value>
+      <name>Grant</name>
+    </property>
+    <name>Project</name>
+    <section>
+      <definition>Information about a person. E.g. as Experimenter, Author, etc.</definition>
+      <property>
+        <definition>The  persons first Name (John).</definition>
+        <value>Christian<definition></definition><type>string</type></value>
+        <name>FirstName</name>
+      </property>
+      <property>
+        <definition>The persons last name (Doe).</definition>
+        <value>Garbers<type>string</type></value>
+        <name>LastName</name>
+      </property>
+      <property>
+        <definition>The complete name of this person e.g. John
+         Doe.</definition>
+        <value>CG<type>person</type></value>
+        <name>FullName</name>
+      </property>
+      <property>
+        <definition>Male or female?</definition>
+        <value>male<type>string</type></value>
+        <name>Gender</name>
+      </property>
+      <name>Person</name>
+      <include>http://portal.g-node.org/odml/terminologies/v1.0/person/person.xml</include>
+      <type>person</type>
+    </section>
+    <section>
+      <definition>General description of an applied stimulus. This
+      section is basis of various related sections that specify
+      more specific stimuli.</definition>
+      <name>Stimulus</name>
+      <section>
+        <definition>Names (URLs) and times of recorded data files. Datasets are obtained during a Recording
+ and may belong to different Experiments. Related sections that can be used as subsections, parent sections, or siblings are Stimulus, HardwareSettings, and Experiment.</definition>
+        <name>Dataset</name>
+        <include>http://portal.g-node.org/odml/terminologies/v1.0/dataset/dataset.xml</include>
+        <type>dataset</type>
+      </section>
+      <include>http://portal.g-node.org/odml/terminologies/v1.0/stimulus/stimulus.xml</include>
+      <type>stimulus</type>
+    </section>
+    <include>http://portal.g-node.org/odml/terminologies/v1.0/project/project.xml</include>
+    <type>project</type>
+  </section>
+  <repository>http://portal.g-node.org/odml/terminologies/v1.0/terminologies.xml</repository>
+  <author>Christian Kellner</author>
+</odML>
