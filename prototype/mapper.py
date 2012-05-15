@@ -24,7 +24,7 @@ def save_document(file_name):
 # takes root - document, save 'first layer' of sections
 def flat_save(source, root):
     for sec in source.sections
-        : = elements.Section()
+        s = elements.Section()
         # set default fields
         s.name       = sec.name
         s.type_name  = sec.type
