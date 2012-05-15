@@ -1,21 +1,31 @@
-from time import time
 from elements.value import Value
 from elements.property import Property
+from elements.section import Section
 
+from time import time
 import hashlib
 
+# main test function
 def test():
     # test database here
     # t = 0 
     # for x in range (0,999999):
     #     t += x
-    test_value()
-    test_property()
-    # test, passed without errors
+    
+    # test_value()
+    # test_property()
+    v = Value()
+    v.value = 42
+    p = Property()
+    p.values.append(v)
+    s = Section()
+    s.properties.append(p)
+    print hashlib.sha1(str(s)).hexdigest()
+    print s.sid()
 
 def test_property():
     v = Value()
-    v.value = 42
+    v.value = 41
     p = Property()
     p.values.append(v)
     print hashlib.sha1(str(p)).hexdigest()
