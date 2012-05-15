@@ -43,7 +43,7 @@ class Section(Document):
             obj_str += str(prop)
 
         for sub in self.subsections:
-            obj_str += sub.sid()
+            obj_str += sub
 
         return obj_str
 

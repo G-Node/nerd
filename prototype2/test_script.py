@@ -14,14 +14,7 @@ def test():
     
     # test_value()
     # test_property()
-    v = Value()
-    v.value = 42
-    p = Property()
-    p.values.append(v)
-    s = Section()
-    s.properties.append(p)
-    print hashlib.sha1(str(s)).hexdigest()
-    print s.sid()
+    test_section()
 
 def test_property():
     v = Value()
@@ -35,6 +28,20 @@ def test_value():
     v.value = 108
     v.type_name = "Int"
     print hashlib.sha1(str(v)).hexdigest()
+
+def test_section():
+    v = Value()
+    v.value = 42
+    p = Property()
+    p.values.append(v)
+    s = Section()
+    s.properties.append(p)
+    s2 = Section()
+    s2.name = "Tester"
+    s.subsections.append(s2.sid())
+
+    print s.sid()
+    print s2.sid()
 
 # check how long test was executed
 if __name__ == '__main__':
