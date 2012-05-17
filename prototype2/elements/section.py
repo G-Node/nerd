@@ -5,6 +5,9 @@ from elements.property import Property
 
 # Section is first order document
 class Section(Document):
+    # primary key
+    object_id = StringField()
+
     # section fields
     name       = StringField()
     type_name  = StringField()
@@ -48,4 +51,5 @@ class Section(Document):
         return obj_str
 
     def sid(self):
-        return hashlib.sha1(str(self)).hexdigest()
+        self.object_id = hashlib.sha1(str(self)).hexdigest()
+        return self.object_id
