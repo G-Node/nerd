@@ -54,6 +54,9 @@ class Mapper():
         for section in source_section.sections:
             s.subsections.append(self._save_section(section, None))
 
+        # initialize identity hash for that section
+        s.sid()
+
         # parent hash changed after subsections were added
         # so parent hash need to be updated for every subsection
         for section in s.subsections:
