@@ -21,9 +21,10 @@ def test():
     # connect with database
     connect("nerd")
 
-    # test document insertion
+    # test document insertion:
     test_document_insert("small_example.odml")
-    #test_database_queries()
+    # test quering database:
+    test_database_queries()
 
 def test_property():
     v = Value()

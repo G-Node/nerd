@@ -39,6 +39,8 @@ class Mapper():
         s.link       = source_section.link
         s.include    = source_section.include
 
+        self._rewrite_properties(source_section, s)   
+
         for section in source_section.sections:
             s.subsections.append(self._save_section(section, None))
             # print "$$ in"
@@ -46,30 +48,28 @@ class Mapper():
         s.sid()
 
         for section in s.subsections:
-            Section.objects.count() # FOR DEBUG
+            # print Section.objects.count() # FOR DEBUG
             temp = Section.objects(object_id=section)[0]
             temp.parent = s.sid()
             temp.save()
-            # print "$$ " + s.name +  s.sid()
-
-        self._rewrite_properties(source_section, s)        
+            # print "$$ " + s.name +  s.sid()     
 
         s.save()
 
         return s.sid()
 
     def _rewrite_properties(self, source_section, target_section):
-        print "IN!!!!"
+        # print "IN!!!!"
         for pro in source_section.properties:
             p = Property()
 
             p.name            = pro.name 
             p.definition      = pro.definition
             p.mapping         = pro.mapping 
-            # dependency      = pro.dependency
-            # dependencyValue = pro.dependency
+            dependency      = pro.dependency
+            dependencyValue = pro.dependency
             
-            # self._rewrite_values(pro, p)
+            self._rewrite_values(pro, p)
 
             target_section.properties.append(p)
 
