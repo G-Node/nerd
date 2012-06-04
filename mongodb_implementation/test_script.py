@@ -5,6 +5,7 @@ import hashlib
 from elements.value import Value
 from elements.property import Property
 from elements.section import Section
+from elements.version import VersionDocument, VersionManager
 
 from mapper import *
 
@@ -22,9 +23,14 @@ def test():
     connect("nerd")
 
     # test document insertion:
-    test_document_insert("small_example.odml")
+    # test_document_insert("small_example.odml")
+    
     # test quering database:
     test_database_queries()
+    
+    # test root versioning
+    test_versioning()
+    test_versioning_with_manager()
 
 def test_property():
     v = Value()
@@ -81,6 +87,39 @@ def test_database_queries():
 
     for s in Section.objects:
         print s.name + " " + s.object_id + " " + str(s.parent)
+
+def test_versioning():
+    #create version document
+    v1 = VersionDocument()
+    v1.version_id = 0
+    v1.author = "lucas"
+
+    # get root document from db
+    r = Root.objects()[0]
+    r.root_id = 0
+    r.save()
+
+    # set properties and save
+    v1.root_id   = r.root_id
+    v1.root_hash = r.get_id()
+    v1.save()
+
+def test_versioning_with_manager():
+    vm = VersionManager()
+    
+    # get first version (for example)
+    v1 = VersionDocument.objects()[0]
+
+    # get root document from db
+    r = Root.objects()[0]
+    r.root_id = 0
+    
+    # make some change & save
+    r.repository = "other/repo"
+    r.save()
+    
+    # use vm to save changes
+    vm.save_version(v1, r, "lucas", None)
 
 # check how long test was executed
 if __name__ == '__main__':

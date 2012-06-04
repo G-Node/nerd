@@ -1,5 +1,6 @@
 from mongoengine import *
 from elements.section import Section
+import hashlib
 
 class Root(Document):
     root_id    = IntField()
@@ -16,7 +17,6 @@ class Root(Document):
         obj_str = str(self.author)     
         obj_str += str(self.date) 
         obj_str += str(self.repository)
-        obj_str += str(self.version)
         obj_str += str(self.root_id)
 
         for sub in self.sections:
