@@ -38,7 +38,7 @@ It's intermediate layer between python driver and orientDB instance.
             </properties>
         </graph>
 
-* Disable gratfulgraph sample becouse it causes some errors:
+* Disable gratfulgraph sample because it causes some errors:
 
             <graph>
                 <graph-enabled>false</graph-enabled>
@@ -53,10 +53,11 @@ It's intermediate layer between python driver and orientDB instance.
         [INFO] RexsterApplicationGraph - Graph [nerd_db] - configured with allowable namespace [tp:gremlin]
         [INFO] GraphConfigurationContainer - Graph nerd_db - orientgraph[local:/home/mokrzu/Downloads/orientdb-graphed-1.0.1/databases/nerd_db] loaded
 
-* There is also available web based GUI for Rexster at: http://localhost:8182/doghouse/
+* There is also available web based GUI for Rexster at: [http://localhost:8182/doghouse/]
 Works fine under Chrome browser.
 [orientdb-graphed-1.0.1]: http://code.google.com/p/orient/downloads/detail?name=orientdb-graphed-1.0.1.zip&can=2&q=
 [Rexster]:
 https://github.com/tinkerpop/rexster/wiki/
 [OrientDB]:
 http://www.orientdb.org/orient-db.htm
+[http://localhost:8182/doghouse/]: http://localhost:8182/doghouse/
