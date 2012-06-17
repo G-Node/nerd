@@ -59,7 +59,7 @@ Works fine under Chrome browser.
 
 ####[Bulbs framework] installation and usage:
 
-*    Setup python virtual enviroment and install bulbs driver from github:
+*    Setup python virtual environment and install bulbs driver from github:
 
         mkdir nerd_code
         cd nerd_code
