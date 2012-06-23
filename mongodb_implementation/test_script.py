@@ -22,9 +22,10 @@ def test():
     connect("nerd")
 
     # test document insertion:
-    test_document_insert("small_example.odml")
+    # test_document_insert("small_example.odml")
     # test quering database:
-    test_database_queries()
+    # test_database_queries()
+    test_basic_query("Grant", "Google")
 
 def test_property():
     v = Value()
@@ -81,6 +82,18 @@ def test_database_queries():
 
     for s in Section.objects:
         print s.name + " " + s.object_id + " " + str(s.parent)
+
+def test_basic_query(pro, value):
+
+    query = "{\"properties.name\": \"" + pro + "\"}, {\"properties.values.value\": \"" + value + "\"}"
+
+    result_set = Section.objects(__raw__=eval(query)[0])
+    
+    print "---RESULT-SET---"
+    for s in result_set:
+        print s.id
+    print "----------------"
+
 
 # check how long test was executed
 if __name__ == '__main__':
