@@ -20,6 +20,9 @@ class Section(Document):
     link       = StringField() # PATH
     include    = StringField() # URL
 
+    # flag for latest version of section
+    isLatest   = BooleanField()
+
     # collection of section properties
     properties = ListField(EmbeddedDocumentField(Property))
 

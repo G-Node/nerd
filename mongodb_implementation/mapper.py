@@ -46,7 +46,8 @@ class Mapper():
         s.mapping    = source_section.mapping
         s.link       = source_section.link
         s.include    = source_section.include
-
+        s.isLatest   = True
+        
         # use external method for rewriting properties
         self._rewrite_properties(source_section, s)   
 
@@ -80,8 +81,8 @@ class Mapper():
             p.name            = pro.name 
             p.definition      = pro.definition
             p.mapping         = pro.mapping 
-            dependency        = pro.dependency
-            dependencyValue   = pro.dependency
+            p.dependency        = pro.dependency
+            p.dependencyValue   = pro.dependency
             
             # use external method for rewriting values
             self._rewrite_values(pro, p)
