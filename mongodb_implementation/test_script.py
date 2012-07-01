@@ -25,7 +25,7 @@ def test():
     # test_document_insert("small_example.odml")
     # test quering database:
     # test_database_queries()
-    test_basic_query("Grant", "Google")
+    test_basic_search("Grant", "Google")
 
 def test_property():
     v = Value()
@@ -83,7 +83,7 @@ def test_database_queries():
     for s in Section.objects:
         print s.name + " " + s.object_id + " " + str(s.parent)
 
-def test_basic_query(pro, value):
+def test_basic_search(pro, value):
 
     query = "{\"properties.name\": \"" + pro + "\"}, {\"properties.values.value\": \"" + value + "\"}"
 

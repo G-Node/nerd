@@ -25,6 +25,37 @@
       <value>Cool Cell<type>text</type></value>
       <name>Comment</name>
     </property>
+    <property>
+      <definition>The region the cell is located in. For example
+         Retina, Cortex, Cerebellum etc.</definition>
+      <value>none<type>string</type></value>
+      <name>BrainRegion</name>
+    </property>
+    <property>
+      <definition>More detailed specification of the region the
+         cell is located in. For example, if BrainRegion is
+         "hippocampus", then the BrainSubRegion may be "CA1".</definition>
+      <value>none<type>string</type></value>
+      <name>BrainSubRegion</name>
+    </property>
+    <property>
+      <definition>Like the pro-, meta- and mesothoracal ganglion
+         in invertebrates.</definition>
+      <value>none<type>string</type></value>
+      <name>Ganglion</name>
+    </property>
+    <property>
+      <definition>The structure of the organism the cell is
+         located in e.g. Eye, Spinal cord...</definition>
+      <value>none<type>string</type></value>
+      <name>Structure</name>
+    </property>
+    <property>
+      <definition>The recording location in the cell. E.g. axonal, dendritic,
+         somatic, ...</definition>
+      <value>none<type>string</type></value>
+      <name>RecordingLocation</name>
+    </property>
     <name>Cell</name>
     <include>http://portal.g-node.org/odml/terminologies/v1.0/cell/cell.xml</include>
     <type>cell</type>
@@ -39,15 +70,25 @@
     </property>
     <property>
       <definition>The name or identifier of the grant funding this project.</definition>
-      <value>Google<definition></definition><type>string</type></value>
+      <value>Google<type>string</type></value>
       <name>Grant</name>
+    </property>
+    <property>
+      <definition>The person responsible for this project.</definition>
+      <value>Somebody<type>person</type></value>
+      <name>PrincipleInvestigator</name>
+    </property>
+    <property>
+      <definition>Additional involved person(s).</definition>
+      <value>Somebody<type>person</type></value>
+      <name>Scientist</name>
     </property>
     <name>Project</name>
     <section>
       <definition>Information about a person. E.g. as Experimenter, Author, etc.</definition>
       <property>
         <definition>The  persons first Name (John).</definition>
-        <value>Christian<definition></definition><type>string</type></value>
+        <value>Christian<type>string</type></value>
         <name>FirstName</name>
       </property>
       <property>
@@ -74,10 +115,66 @@
       <definition>General description of an applied stimulus. This
       section is basis of various related sections that specify
       more specific stimuli.</definition>
+      <property>
+        <definition>A textual description of the stimulus.</definition>
+        <value>none<type>text</type></value>
+        <name>Description</name>
+      </property>
+      <property>
+        <definition>A comment on this specific stimulus.</definition>
+        <value>none<type>text</type></value>
+        <name>Comment</name>
+      </property>
+      <property>
+        <definition>Who is the author of this stimulus.</definition>
+        <value>none<type>person</type></value>
+        <name>Author</name>
+      </property>
+      <property>
+        <definition>like the current in case of electrical stimulation.</definition>
+        <value>none<type>string</type></value>
+        <name>Intensity</name>
+      </property>
+      <property>
+        <definition>Describes the site of the stimulus application.</definition>
+        <value>none<type>string</type></value>
+        <name>Location</name>
+      </property>
+      <property>
+        <definition>Visual, acoustic, haptic, electrical, etc. stimulation.</definition>
+        <value>none<type>string</type></value>
+        <name>Modality</name>
+      </property>
+      <property>
+        <definition>The URL of a an applied stimulus file. This
+         is the recommended alternative to explicitely including the
+         actual stimulus via StimulusFile.</definition>
+        <value>none<type>URL</type></value>
+        <name>StimulusFileURL</name>
+      </property>
       <name>Stimulus</name>
       <section>
         <definition>Names (URLs) and times of recorded data files. Datasets are obtained during a Recording
  and may belong to different Experiments. Related sections that can be used as subsections, parent sections, or siblings are Stimulus, HardwareSettings, and Experiment.</definition>
+        <property>
+          <definition>A comment about the dataset (common to all files
+         belonging to this dataset).</definition>
+          <value>none<type>text</type></value>
+          <name>Comment</name>
+        </property>
+        <property>
+          <definition>A rough indication of the overall quality of
+       the dataset. E.g. poor, fair, or good.</definition>
+          <value>none<type>string</type></value>
+          <name>Quality</name>
+        </property>
+        <property>
+          <definition>A comma separated ascending list of all used
+       values for indicating the overall quality of the
+       dataset. E.g. "poor,fair,good".</definition>
+          <value>none<type>string</type></value>
+          <name>QualityRange</name>
+        </property>
         <name>Dataset</name>
         <include>http://portal.g-node.org/odml/terminologies/v1.0/dataset/dataset.xml</include>
         <type>dataset</type>

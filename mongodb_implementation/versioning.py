@@ -3,12 +3,12 @@ from mapper import Mapper
 
 class Version:
 
-    def __init__(self)
+    def __init__(self):
         self.m = Mapper()
 
     def save_section(self, section):
-    	#create new section
-    	s = Section()
+        #create new section
+        s = Section()
     
         s.name       = section.name
         s.type_name  = section.type_name
