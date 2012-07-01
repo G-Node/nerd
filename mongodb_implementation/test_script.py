@@ -5,8 +5,9 @@ import hashlib
 from elements.value import Value
 from elements.property import Property
 from elements.section import Section
-
+from versioning import Version
 from mapper import *
+
 
 # main test function
 def test():
@@ -23,9 +24,13 @@ def test():
 
     # test document insertion:
     # test_document_insert("small_example.odml")
+    
     # test quering database:
     # test_database_queries()
-    test_basic_search("Grant", "Google")
+    
+    # test_basic_search("Grant", "Google")
+    
+    test_versioning()
 
 def test_property():
     v = Value()
@@ -94,6 +99,11 @@ def test_basic_search(pro, value):
         print s.id
     print "----------------"
 
+def test_versioning():
+    s = Section.objects()[2]
+    print s.__class__
+    v = Version()
+    v.save_section(s)
 
 # check how long test was executed
 if __name__ == '__main__':
