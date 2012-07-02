@@ -11,10 +11,7 @@ from mapper import *
 
 # main test function
 def test():
-    # t = 0 
-    # for x in range (0,999999):
-    #     t += x
-    
+
     # test_value()
     # test_property()
     # test_section()

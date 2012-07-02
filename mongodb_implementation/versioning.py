@@ -7,7 +7,7 @@ class Version:
     def save_section(self, section):
         #create new section
         s = Section()
-        
+
     
         s.name       = section.name
         s.type_name  = section.type_name
@@ -25,9 +25,13 @@ class Version:
         self.rewrite_properties(section, s)
     
         # recursively add subsections
-        for section in section.subsections:
-            s.subsections.append(self.save_section(section))
-            
+        print "++++++"
+        for sec in section.subsections:
+            print sec
+            print sec.__class__
+            s.subsections.append(Section.objects(object_id = sec)[0])
+        
+        print "+++++++++++"
             
         s.sid()
     
