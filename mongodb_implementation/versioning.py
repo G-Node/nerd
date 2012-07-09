@@ -30,6 +30,7 @@ class Version:
             print sec
             print sec.__class__
             s.subsections.append(Section.objects(object_id = sec)[0])
+            sec.isLatest = False
         
         print "+++++++++++"
             
