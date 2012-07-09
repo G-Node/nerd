@@ -8,6 +8,8 @@ from elements.section import Section
 from versioning import Version
 from mapper import *
 
+from pymongo import Connection
+from bson.code import Code
 
 # main test function
 def test():
@@ -27,7 +29,8 @@ def test():
     
     # test_basic_search("Grant", "Google")
     
-    test_versioning()
+    # test_versioning()
+    test_map_reduce("Grant", "Google")
 
 def test_property():
     v = Value()
@@ -101,6 +104,45 @@ def test_versioning():
     print s.__class__
     v = Version()
     v.save_section(s)
+
+def test_map_reduce(p, v):
+    db = Connection().nerd
+    mapper = Code("""
+        function () {
+        var i = this._id;
+        var id = this.object_id;
+    
+        if (this.isLatest == true) {
+            this.properties.forEach(
+                function(z) { 
+                    if (z.name == \"""" + p + """\" ) {
+                        var checkValue = false;
+                        z.values.forEach(
+                            function(x) {
+                                if (x.value == \"""" + v + """\") {
+                                    checkValue = true;
+                                }
+                            }
+                        );
+        
+                        if (checkValue) {
+                            emit(i, id);
+                        }
+                    } 
+                } 
+            );
+        }""")
+
+    reducer = Code(""" 
+           function (key, values) {
+
+                  return value;
+                }
+        """)
+
+    result = db.things.map_reduce(mapper, reducer, "myresults")
+    for doc in result.find():
+        print doc
 
 # check how long test was executed
 if __name__ == '__main__':

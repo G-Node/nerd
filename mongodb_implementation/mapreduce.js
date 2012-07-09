@@ -7,13 +7,13 @@ function map(property, value) {
 			function(z) { 
 				if (z.name == property) {
 					var checkValue = false;
-					z.values.forEach(x)  {
+					z.values.forEach(  
 						function(x) {
 							if (x.value == value) {
 								checkValue = true;
 							}
 						}
-					}
+					);
 	
 					if (checkValue) {
 						emit(i, id);
