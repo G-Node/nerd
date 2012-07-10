@@ -33,10 +33,13 @@ class Version:
             print sec.__class__
             s.subsections.append(Section.objects(object_id = sec)[0].object_id)
             
-            if (section.sid != section.previous.sid):
+            # first version condition
+            if (section.previous == None): #or emtpy string
                 self.save_section(Section.objects(object_id = sec)[0])
+            else:
+                if (section.sid != section.previous.sid):
+                    self.save_section(Section.objects(object_id = sec)[0])
 
-                sec.isLatest = False
         
         print "+++++++++++"
             

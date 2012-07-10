@@ -29,8 +29,10 @@ def test():
     
     # test_basic_search("Grant", "Google")
     
-    # test_versioning()
-    test_map_reduce("Grant", "Google")
+    test_versioning()
+
+    # map/reduce: not ready yet
+    # test_map_reduce("Grant", "Google")
 
 def test_property():
     v = Value()
@@ -100,7 +102,7 @@ def test_basic_search(pro, value):
     print "----------------"
 
 def test_versioning():
-    s = Section.objects()[2]
+    s = Section.objects()[0]
     print s.__class__
     v = Version()
     v.save_section(s)

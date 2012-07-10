@@ -34,9 +34,9 @@ class Section(Document):
 
     # link to previous version of this section
     previous = StringField()
-    
+
     # string to produce unique hash
-    def __unicode__(self):
+    def toString(self):
         obj_str = str(self.name)     
         obj_str += str(self.type_name) 
         obj_str += str(self.reference)
@@ -52,10 +52,10 @@ class Section(Document):
             obj_str += str(prop)
 
         for sub in self.subsections:
-            obj_str += sub.sid()
+            obj_str += sub
 
         return obj_str
 
     def sid(self):
-        self.object_id = hashlib.sha1(str(self)).hexdigest()
+        self.object_id = hashlib.sha1(self.toString()).hexdigest()
         return self.object_id
