@@ -19,6 +19,8 @@ class Version:
         s.include    = section.include
         s.isLatest   = True
         
+        s.previous   = section.object_id
+
         # now that section will not appear in search results
         section.isLatest = False
     
@@ -29,8 +31,12 @@ class Version:
         for sec in section.subsections:
             print sec
             print sec.__class__
-            s.subsections.append(Section.objects(object_id = sec)[0])
-            sec.isLatest = False
+            s.subsections.append(Section.objects(object_id = sec)[0].object_id)
+            
+            if (section.sid != section.previous.sid):
+                self.save_section(Section.objects(object_id = sec)[0])
+
+                sec.isLatest = False
         
         print "+++++++++++"
             

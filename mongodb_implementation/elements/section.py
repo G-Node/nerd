@@ -32,6 +32,9 @@ class Section(Document):
     # collection of sub-sections
     subsections = ListField(StringField())
 
+    # link to previous version of this section
+    previous = StringField()
+    
     # string to produce unique hash
     def __unicode__(self):
         obj_str = str(self.name)     
