@@ -23,19 +23,15 @@ class Mapper():
 
         # add sections to 'section' ccollection
         for section in odml_root.sections:
-            s = self._save_section(section, None)
+            s = self._save_section(section)
             r.sections.append(s)
 
         # save new object in database
         r.save()
 
-    def _save_section(self, source_section, parent):
+    def _save_section(self, source_section):
         # create new section document
         s = Section()
-
-        # set parent for that section
-        # None means that it is section at the top of the hierarchy
-        s.parent = parent
 
         # rewrite section related fields
         s.name       = source_section.name
@@ -46,30 +42,16 @@ class Mapper():
         s.mapping    = source_section.mapping
         s.link       = source_section.link
         s.include    = source_section.include
-        s.isLatest   = True
         
         # use external method for rewriting properties
         self._rewrite_properties(source_section, s)   
 
         # recursively add subsections
         for section in source_section.sections:
-            s.subsections.append(self._save_section(section, None))
+            s.subsections.append(self._save_section(section))
 
-        # initialize identity hash for that section
-        s.sid()
-
-        # parent hash changed after subsections were added
-        # so parent hash need to be updated for every subsection
-        for section in s.subsections:
-            temp = Section.objects(object_id=section)[0]
-            temp.parent = s.sid()
-            temp.save()   
-
-        # save section in database
-        s.save()
-
-        # return section hash - id
-        return s.sid()
+        # return section as embedded document
+        return s
 
     def _rewrite_properties(self, source_section, target_section):
         # copy all properties from given section
