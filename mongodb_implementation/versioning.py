@@ -8,7 +8,6 @@ class Version:
         #create new section
         s = Section()
 
-    
         s.name       = section.name
         s.type_name  = section.type_name
         s.reference  = section.reference

@@ -4,9 +4,7 @@ import hashlib
 from elements.property import Property
 
 # Section is first order document
-class Section(Document):
-    # primary key
-    object_id = StringField()
+class Section(EmbeddedDocument):
 
     # section fields
     name       = StringField()
@@ -20,9 +18,6 @@ class Section(Document):
     link       = StringField() # PATH
     include    = StringField() # URL
 
-    # flag for latest version of section
-    isLatest   = BooleanField()
-
     # collection of section properties
     properties = ListField(EmbeddedDocumentField(Property))
 
@@ -30,32 +25,7 @@ class Section(Document):
     parent = StringField()
 
     # collection of sub-sections
-    subsections = ListField(StringField())
+    subsections = ListField(EmbeddedDocumentField(Property))
 
     # link to previous version of this section
     previous = StringField()
-
-    # string to produce unique hash
-    def toString(self):
-        obj_str = str(self.name)     
-        obj_str += str(self.type_name) 
-        obj_str += str(self.reference)
-        obj_str += str(self.definition)
-        obj_str += str(self.repository)
-        obj_str += str(self.mapping)
-        obj_str += str(self.link)
-        obj_str += str(self.include)
-
-        obj_str += str(self.parent)
-
-        for prop in self.properties:
-            obj_str += str(prop)
-
-        for sub in self.subsections:
-            obj_str += sub
-
-        return obj_str
-
-    def sid(self):
-        self.object_id = hashlib.sha1(self.toString()).hexdigest()
-        return self.object_id
