@@ -26,7 +26,7 @@ class Version:
         self.rewrite_properties(section, s)
     
         # recursively add subsections
-        print "++++++"
+        print "---+++"
         for sec in section.subsections:
             print sec
             print sec.__class__
@@ -40,7 +40,7 @@ class Version:
                     self.save_section(Section.objects(object_id = sec)[0])
 
         
-        print "+++++++++++"
+        print "+++---"
             
         s.sid()
     

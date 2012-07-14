@@ -25,7 +25,6 @@ class Section(EmbeddedDocument):
     parent = StringField()
 
     # collection of sub-sections
-    subsections = ListField(EmbeddedDocumentField(Property))
+    subsections = ListField(EmbeddedDocumentField('self'))
 
     # link to previous version of this section
-    previous = StringField()
