@@ -25,6 +25,7 @@ class Section(EmbeddedDocument):
     parent = StringField()
 
     # collection of sub-sections
+    # 'self' - means recursive embedded document
     subsections = ListField(EmbeddedDocumentField('self'))
 
     # link to previous version of this section

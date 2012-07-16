@@ -1,58 +1,47 @@
 from elements.section import Section
 from elements.property import Property
 from elements.value import Value
+from elements.oldRoot import oldRoot
 
 class Version:
 
-    def save_section(self, section):
+    def save_root(self, source_root):
+        r = OldRoot()
+
+        r.author     = source_root.author
+        r.date       = source_root.date
+        r.repository = source_root.repository
+        r.version    = source_root.version
+
+        for sec in source_root.sections:
+            r.sections.append(self.save_section(sec))
+            
+    def save_section(self, source_section):
         #create new section
         s = Section()
 
-        s.name       = section.name
-        s.type_name  = section.type_name
-        s.reference  = section.reference
-        s.definition = section.definition
-        s.repository = section.repository
-        s.mapping    = section.mapping
-        s.link       = section.link
-        s.include    = section.include
-        s.isLatest   = True
-        
-        s.previous   = section.object_id
+        s.name       = source_section.name
+        s.type_name  = source_section.type_name
+        s.reference  = source_section.reference
+        s.definition = source_section.definition
+        s.repository = source_section.repository
+        s.mapping    = source_section.mapping
+        s.link       = source_section.link
+        s.include    = source_section.include
 
-        # now that section will not appear in search results
-        section.isLatest = False
-    
         self.rewrite_properties(section, s)
     
         # recursively add subsections
         print "---+++"
-        for sec in section.subsections:
-            print sec
-            print sec.__class__
-            s.subsections.append(Section.objects(object_id = sec)[0].object_id)
-            
-            # first version condition
-            if (section.previous == None): #or emtpy string
-                self.save_section(Section.objects(object_id = sec)[0])
-            else:
-                if (section.sid != section.previous.sid):
-                    self.save_section(Section.objects(object_id = sec)[0])
 
+        for sec in source_section.subsections:
+            # print sec
+            print sec.__class__
+            s.subsections.append(self.save_section(sec))
         
         print "+++---"
-            
-        s.sid()
-    
-        # parent hash changed after subsections were added
-        # so parent hash need to be updated for every subsection
-        for section in s.subsections:
-            temp = Section.objects(object_id=section)[0]
-            temp.parent = s.sid()
-            temp.save()   
 
-        # save section in database
-        s.save()
+        return s
 
 
     def rewrite_properties(self, source_section, target_section):

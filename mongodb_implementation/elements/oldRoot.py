@@ -1,7 +1,7 @@
 from mongoengine import *
 from elements.section import Section
 
-class Root(Document):
+class OldRoot(Document):
 	# TODO:
 	# there should be some kind of uniq indificator
 
