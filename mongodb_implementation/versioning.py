@@ -1,7 +1,7 @@
 from elements.section import Section
 from elements.property import Property
 from elements.value import Value
-from elements.oldRoot import oldRoot
+from elements.oldRoot import OldRoot
 
 class Version:
 
@@ -14,8 +14,11 @@ class Version:
         r.version    = source_root.version
 
         for sec in source_root.sections:
-            r.sections.append(self.save_section(sec))
-            
+            new = self.save_section(sec)
+            r.sections.append(new)
+
+        r.save()
+
     def save_section(self, source_section):
         #create new section
         s = Section()
@@ -29,14 +32,14 @@ class Version:
         s.link       = source_section.link
         s.include    = source_section.include
 
-        self.rewrite_properties(section, s)
+        self.rewrite_properties(source_section, s)
     
         # recursively add subsections
         print "---+++"
 
         for sec in source_section.subsections:
             # print sec
-            print sec.__class__
+            print "SEC: " + str(sec.__class__) 
             s.subsections.append(self.save_section(sec))
         
         print "+++---"

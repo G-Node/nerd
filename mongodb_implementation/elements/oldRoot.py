@@ -12,4 +12,4 @@ class OldRoot(Document):
     version    = StringField()
 
     # collection of sections that belongs to root
-    sections = ListField(EmbeddedDocumentField(StringField())
+    sections = ListField(EmbeddedDocumentField(Section))

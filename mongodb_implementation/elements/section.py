@@ -3,6 +3,9 @@ import hashlib
 
 from elements.property import Property
 
+class RecursiveObject(EmbeddedDocument):
+    obj = EmbeddedDocumentField('self')
+
 # Section is first order document
 class Section(EmbeddedDocument):
 
@@ -21,11 +24,9 @@ class Section(EmbeddedDocument):
     # collection of section properties
     properties = ListField(EmbeddedDocumentField(Property))
 
-    # private key (hash) of parent section
-    parent = StringField()
 
     # collection of sub-sections
     # 'self' - means recursive embedded document
-    subsections = ListField(EmbeddedDocumentField('self'))
+    subsections = ListField(ReferenceField(Section))
 
     # link to previous version of this section
