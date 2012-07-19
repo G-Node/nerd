@@ -32,9 +32,6 @@ class Section(Document):
     # collection of sub-sections
     subsections = ListField(StringField())
 
-    # link to previous version of this section
-    previous = StringField()
-
     # string to produce unique hash
     def toString(self):
         obj_str = str(self.name)     
@@ -45,8 +42,6 @@ class Section(Document):
         obj_str += str(self.mapping)
         obj_str += str(self.link)
         obj_str += str(self.include)
-
-        obj_str += str(self.parent)
 
         for prop in self.properties:
             obj_str += str(prop)

@@ -4,11 +4,27 @@ from elements.value import Value
 
 class Version:
 
+    def save_root(self, root):
+        r = OldRoot()
+
+        # rewirite primary fields
+        r.author     = root.author
+        r.date       = root.date
+        r.repository = root.repository
+        r.version    = root.version
+
+        # copy sections for that root document
+        for sec in root.sections:
+            r.sections.append(self.save_section(sec))
+
+        r.save()
+        
     def save_section(self, section):
         #create new section
         s = Section()
 
-    
+        s.object_id  = section.object_id
+
         s.name       = section.name
         s.type_name  = section.type_name
         s.reference  = section.reference
@@ -17,12 +33,6 @@ class Version:
         s.mapping    = section.mapping
         s.link       = section.link
         s.include    = section.include
-        s.isLatest   = True
-        
-        s.previous   = section.object_id
-
-        # now that section will not appear in search results
-        section.isLatest = False
     
         self.rewrite_properties(section, s)
     
@@ -54,6 +64,9 @@ class Version:
 
         # save section in database
         s.save()
+
+        #return id
+        return s.sid()
 
 
     def rewrite_properties(self, source_section, target_section):

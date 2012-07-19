@@ -1,2 +1,4 @@
 *.pyc
 *.ipynb 
+*.sublime-project
+*.sublime-workspace
