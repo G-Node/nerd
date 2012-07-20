@@ -1,12 +1,11 @@
-from elements.section import Section
+from elements.section import LatestSection, OldSection
 from elements.property import Property
 from elements.value import Value
-from elements.old_root import OldRoot
 
 class Version:
 
     def save_root(self, root):
-        r = OldRoot()
+        r = Root()
 
         # rewirite primary fields
         r.author     = root.author
@@ -16,13 +15,13 @@ class Version:
 
         # copy sections for that root document
         for sec in root.sections:
-            r.sections.append(self.save_section(Section.objects(object_id = sec)[0]))
+            r.sections.append(self.save_section(LatestSection.objects(object_id = sec)[0]))
 
         r.save()
 
     def save_section(self, section):
         #create new section
-        s = Section()
+        s = OldSection()
 
         s.object_id  = section.object_id
 

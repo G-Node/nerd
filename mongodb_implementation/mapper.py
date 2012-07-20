@@ -2,7 +2,7 @@ from odml.tools.xmlparser import load
 
 from elements.value import Value
 from elements.property import Property
-from elements.section import Section
+from elements.section import LatestSection
 from elements.root import Root
 
 # class for mapping from odml file to documents in mongodatabase
@@ -21,6 +21,8 @@ class Mapper():
         r.repository = odml_root.repository
         r.version    = odml_root.version
 
+        r.previous   = None
+
         # add sections to 'section' ccollection
         for section in odml_root.sections:
             s = self._save_section(section, None)
@@ -31,7 +33,7 @@ class Mapper():
 
     def _save_section(self, source_section, parent):
         # create new section document
-        s = Section()
+        s = LatestSection()
 
         # set parent for that section
         # None means that it is section at the top of the hierarchy

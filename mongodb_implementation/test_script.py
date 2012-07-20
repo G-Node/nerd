@@ -4,7 +4,7 @@ import hashlib
 
 from elements.value import Value
 from elements.property import Property
-from elements.section import Section
+from elements.section import *
 from versioning import Version
 from mapper import *
 
@@ -52,9 +52,9 @@ def test_section():
     v.value = 42
     p = Property()
     p.values.append(v)
-    s = Section()
+    s = LatestSection()
     s.properties.append(p)
-    s2 = Section()
+    s2 = LatestSection()
     s2.name = "Tester"
     s.subsections.append(s2.sid())
 
@@ -68,7 +68,7 @@ def test_document_insert(file_name):
 def test_database_queries():
 
     def print_sec(sid, ind):
-        s = Section.objects(object_id=sid)[0]
+        s = LatestSection.objects(object_id=sid)[0]
         if (None == s):
             pass
         else:
@@ -87,14 +87,14 @@ def test_database_queries():
 
     print "[ sections in db ]"
 
-    for s in Section.objects:
+    for s in LatestSection.objects:
         print s.name + " " + s.object_id + " " + str(s.parent)
 
 def test_basic_search(pro, value):
 
     query = "{\"properties.name\": \"" + pro + "\"}, {\"properties.values.value\": \"" + value + "\"}"
 
-    result_set = Section.objects(__raw__=eval(query)[0])
+    result_set = LatestSection.objects(__raw__=eval(query)[0])
     
     print "---RESULT-SET---"
     for s in result_set:
