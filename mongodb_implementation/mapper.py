@@ -63,7 +63,7 @@ class Mapper():
         # parent hash changed after subsections were added
         # so parent hash need to be updated for every subsection
         for section in s.subsections:
-            temp = Section.objects(object_id=section)[0]
+            temp = LatestSection.objects(object_id=section)[0]
             temp.parent = s.sid()
             temp.save()   
 

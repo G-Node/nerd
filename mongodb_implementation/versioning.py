@@ -41,7 +41,7 @@ class Version:
         for sec in section.subsections:
             print sec
             print sec.__class__
-            s.subsections.append(self.save_section(Section.objects(object_id = sec)[0].object_id)
+            s.subsections.append(self.save_section(LatestSection.objects(object_id = sec)[0].object_id))
         
         print "+++++++++++"
             
@@ -50,7 +50,7 @@ class Version:
         # parent hash changed after subsections were added
         # so parent hash need to be updated for every subsection
         for section in s.subsections:
-            temp = Section.objects(object_id=section)[0]
+            temp = LatestSection.objects(object_id=section)[0]
             temp.parent = s.sid()
             temp.save()   
 
