@@ -102,10 +102,10 @@ def test_basic_search(pro, value):
     print "----------------"
 
 def test_versioning():
-    s = Section.objects()[0]
-    print s.__class__
+    r = Root.objects()[0]
+    print "TESTING VERSIONING: " + str(r.__class__)
     v = Version()
-    v.save_section(s)
+    v.save_root(r)
 
 def test_map_reduce(p, v):
     db = Connection().nerd

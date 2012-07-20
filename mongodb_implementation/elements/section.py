@@ -54,3 +54,9 @@ class Section(Document):
     def sid(self):
         self.object_id = hashlib.sha1(self.toString()).hexdigest()
         return self.object_id
+
+class LatestSection(Section):
+    pass
+
+class OldSection(Section):
+    pass

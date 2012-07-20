@@ -1,6 +1,7 @@
 from elements.section import Section
 from elements.property import Property
 from elements.value import Value
+from elements.old_root import OldRoot
 
 class Version:
 
@@ -15,10 +16,10 @@ class Version:
 
         # copy sections for that root document
         for sec in root.sections:
-            r.sections.append(self.save_section(sec))
+            r.sections.append(self.save_section(Section.objects(object_id = sec)[0]))
 
         r.save()
-        
+
     def save_section(self, section):
         #create new section
         s = Section()
@@ -34,22 +35,14 @@ class Version:
         s.link       = section.link
         s.include    = section.include
     
-        self.rewrite_properties(section, s)
+        # self.rewrite_properties(section, s)
     
         # recursively add subsections
         print "++++++"
         for sec in section.subsections:
             print sec
             print sec.__class__
-            s.subsections.append(Section.objects(object_id = sec)[0].object_id)
-            
-            # first version condition
-            if (section.previous == None): #or emtpy string
-                self.save_section(Section.objects(object_id = sec)[0])
-            else:
-                if (section.sid != section.previous.sid):
-                    self.save_section(Section.objects(object_id = sec)[0])
-
+            s.subsections.append(self.save_section(Section.objects(object_id = sec)[0].object_id)
         
         print "+++++++++++"
             
@@ -63,6 +56,10 @@ class Version:
             temp.save()   
 
         # save section in database
+        print "ATTENTION!"
+        print s.sid()
+        print "THANKS!"
+
         s.save()
 
         #return id
