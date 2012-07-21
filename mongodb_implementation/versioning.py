@@ -41,7 +41,7 @@ class Version:
         s.parent     = section.parent
     
         # COMMENTED PROPERTIES SAVE ! ! !
-        # self.rewrite_properties(section, s)
+        self.rewrite_properties(section, s)
     
         # recursively add subsections
         print "add subsections"
@@ -81,11 +81,11 @@ class Version:
             p = Property()
             
             # rewirite properites relateed fields
-            p.name            = pro.name 
-            p.definition      = pro.definition
-            p.mapping         = pro.mapping 
+            p.name              = pro.name 
+            p.definition        = pro.definition
+            p.mapping           = pro.mapping 
             p.dependency        = pro.dependency
-            p.dependencyValue   = pro.dependency
+            p.dependencyValue   = pro.dependencyValue
             
             # use external method for rewriting values
             self.rewrite_values(pro, p)

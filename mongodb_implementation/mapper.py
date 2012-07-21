@@ -52,7 +52,7 @@ class Mapper():
         
         # use external method for rewriting properties
         # COMMENTED PROPERTIES SAVE ! ! ! 
-        # self._rewrite_properties(source_section, s)   
+        self._rewrite_properties(source_section, s)   
 
         # recursively add subsections
         for section in source_section.sections:
@@ -85,7 +85,7 @@ class Mapper():
             p.definition      = pro.definition
             p.mapping         = pro.mapping 
             p.dependency        = pro.dependency
-            p.dependencyValue   = pro.dependency
+            p.dependencyValue   = pro.dependency_value
             
             # use external method for rewriting values
             self._rewrite_values(pro, p)
@@ -102,7 +102,7 @@ class Mapper():
             v.value       = value._value      
             v.uncertainty =  value._uncertainty
             v.unit        =  value._unit       
-            v.type_name   =  value.dtype 
+            v.type_name   =  value._dtype 
             v.definition  =  value._definition 
             v.reference   =  value._reference  
             v.filename    =  value._filename   

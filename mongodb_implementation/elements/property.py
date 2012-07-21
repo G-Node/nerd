@@ -5,9 +5,11 @@ class Property(EmbeddedDocument):
     # property fields
     name            = StringField()
     definition      = StringField()
-    mapping         = ListField(StringField()) # URL
+    mapping         = StringField() # URL
     # TODO: implement method for property validation (in Section)
-    dependency      = ListField(StringField()) 
+    
+    # python-odml assume that it's just a one dependency
+    dependency      = StringField()
     dependencyValue = StringField()   
     
     # collection of values 
