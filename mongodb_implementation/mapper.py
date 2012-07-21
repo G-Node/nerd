@@ -51,7 +51,8 @@ class Mapper():
         s.isLatest   = True
         
         # use external method for rewriting properties
-        self._rewrite_properties(source_section, s)   
+        # COMMENTED PROPERTIES SAVE ! ! ! 
+        # self._rewrite_properties(source_section, s)   
 
         # recursively add subsections
         for section in source_section.sections:
