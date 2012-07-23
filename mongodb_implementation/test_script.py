@@ -27,9 +27,11 @@ def test():
     # test quering database:
     # test_database_queries()
     
-    # test_basic_search("Grant", "Google")
+    test_basic_search("Grant", "Google")
     
-    test_versioning()
+    # test_versioning()
+
+    # test_ids()
 
     # map/reduce: not ready yet
     # test_map_reduce("Grant", "Google")
@@ -106,6 +108,15 @@ def test_versioning():
     print "TESTING VERSIONING: " + str(r.__class__)
     v = Version()
     v.save_root(r)
+
+def test_ids():
+    print "IDS: "
+    for r in Root.objects():
+        print str(r.id) + " : " + str(r.id.__class__)
+    print "----"
+
+    x = Root.objects(id="500af779fad9b43fc8000005")[0]
+    print x.author
 
 def test_map_reduce(p, v):
     db = Connection().nerd

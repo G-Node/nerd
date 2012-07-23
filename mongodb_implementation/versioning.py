@@ -14,6 +14,8 @@ class Version:
         r.repository = root.repository
         r.version    = root.version
 
+        r.previous   = str(root.id)
+        
         # copy sections for that root document
         for sec in root.sections:
             r.sections.append(self.save_section(LatestSection.objects(object_id = sec)[0]))
