@@ -5,7 +5,7 @@ import hashlib
 from elements.value import Value
 from elements.property import Property
 from elements.section import *
-from versioning import Version
+from versioning import *
 from mapper import *
 
 from pymongo import Connection
@@ -27,11 +27,13 @@ def test():
     # test quering database:
     # test_database_queries()
     
-    test_basic_search("Grant", "Google")
+    # test_basic_search("Grant", "Google")
     
     # test_versioning()
 
     # test_ids()
+
+    test_version_manager()
 
     # map/reduce: not ready yet
     # test_map_reduce("Grant", "Google")
@@ -117,6 +119,10 @@ def test_ids():
 
     x = Root.objects(id="500af779fad9b43fc8000005")[0]
     print x.author
+
+def test_version_manager():
+    vm = VersionManager()
+    print vm.version_history(Root.objects()[1].id)
 
 def test_map_reduce(p, v):
     db = Connection().nerd

@@ -113,3 +113,22 @@ class Version:
 
             # add new object to target property values collection
             target_property.values.append(v) 
+
+class VersionManager:
+
+    def version_history(self, root_id):
+        
+        # extract root from 
+        r = Root.objects(id=root_id)[0]
+        
+        print "FIRST = " + str(r.id)
+
+        history = []
+        prev = r.previous
+
+        while (prev != None and prev != ""):
+            history.append(prev)
+            root = Root.objects(id=prev)[0]
+            prev = root.previous
+
+        return history
