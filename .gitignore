@@ -2,3 +2,5 @@
 *.ipynb 
 *.sublime-project
 *.sublime-workspace
+orientdb_implementation/env/
+orientdb_implementation/build/
