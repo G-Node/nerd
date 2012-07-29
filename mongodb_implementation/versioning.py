@@ -1,4 +1,4 @@
-from elements.section import LatestSection, OldSection
+from elements.section import LatestSection, OldSection, TempSection
 from elements.property import Property
 from elements.value import Value
 from elements.root import Root
@@ -18,13 +18,18 @@ class Version:
         
         # copy sections for that root document
         for sec in root.sections:
-            r.sections.append(self.save_section(LatestSection.objects(object_id = sec)[0]))
+            r.sections.append(self.save_section(LatestSection.objects(object_id = sec)[0], "old"))
 
         r.save()
 
-    def save_section(self, section):
+    def save_section(self, section, section_type):
         #create new section
-        s = OldSection()
+        if (section_type == "latest"):
+            s = LatestSection()
+        elif (section_type == "old"):
+            s = OldSection()
+        else:
+            s = TempSection()
 
         s.object_id  = section.object_id
         print "OBJECT_ID: " + str(s.object_id)
@@ -42,16 +47,26 @@ class Version:
 
         s.parent     = section.parent
     
-        # COMMENTED PROPERTIES SAVE ! ! !
+        # PROPERTIES SAVE
         self.rewrite_properties(section, s)
     
         # recursively add subsections
         print "add subsections"
         for sec in section.subsections:
             print "subsection_id" + str(sec)
-            print "subsection_name" + str(LatestSection.objects(object_id = sec)[0].name)
+            
+            if (section_type == "latest"):
+                print "subsection_name" + str(TempSection.objects(object_id = sec)[0].name)
+                s.subsections.append(self.save_section(TempSection.objects(object_id = sec)[0], "latest"))
+            
+            elif (section_type == "old"):
+                print "subsection_name" + str(LatestSection.objects(object_id = sec)[0].name)
+                s.subsections.append(self.save_section(LatestSection.objects(object_id = sec)[0], "old"))
 
-            s.subsections.append(self.save_section(LatestSection.objects(object_id = sec)[0]))
+            else:
+                print "subsection_name" + str(OldSection.objects(object_id = sec)[0].name)
+                s.subsections.append(self.save_section(OldSection.objects(object_id = sec)[0], "temp"))
+
         
         print "end. (" + str(s.sid()) + ") { " + str(s.name) + " }\n"
             
@@ -61,7 +76,13 @@ class Version:
         # so parent hash need to be updated for every subsection
         for section in s.subsections:
             print "[[ " + str(LatestSection.objects(object_id=section)) + " ]]"
-            temp = LatestSection.objects(object_id=section)[0]
+            if (section_type == "latest"):
+                temp = TempSection.objects(object_id=section)[0]
+            elif (section_type == "old"):
+                temp = LatestSection.objects(object_id=section)[0]
+            else:
+                temp = OldSection.objects(object_id=section)[0]
+
             temp.parent = s.sid()
             temp.save()   
 
@@ -74,6 +95,7 @@ class Version:
 
         #return id
         return s.sid()
+
 
 
     def rewrite_properties(self, source_section, target_section):
@@ -132,3 +154,9 @@ class VersionManager:
             prev = root.previous
 
         return history
+
+    def switch_to_last(self, root_id):
+
+        root = Root.objects(id=root_id)[0]
+
+        

@@ -29,11 +29,13 @@ def test():
     
     # test_basic_search("Grant", "Google")
     
-    # test_versioning()
+    test_versioning()
 
     # test_ids()
 
-    test_version_manager()
+    # test_version_manager()
+
+    # show_roots()
 
     # map/reduce: not ready yet
     # test_map_reduce("Grant", "Google")
@@ -123,6 +125,12 @@ def test_ids():
 def test_version_manager():
     vm = VersionManager()
     print vm.version_history(Root.objects()[1].id)
+
+def show_roots():
+    roots = Root.objects()
+
+    for r in roots:
+        print "Root { " + str(r.id) + " } -> [ " + str(r.previous) + " ]"
 
 def test_map_reduce(p, v):
     db = Connection().nerd
