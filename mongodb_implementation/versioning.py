@@ -157,6 +157,35 @@ class VersionManager:
 
     def switch_to_last(self, root_id):
 
+        v = Version() 
+
         root = Root.objects(id=root_id)[0]
 
-        
+        previous_root = Root.objects(id=root.previous)[0]
+
+        current_sections = []
+        old_sections = []
+
+        for sec in previous_root.sections:
+            old_sections.append(OldSection.objects(object_id=sec)[0])
+
+        for sec in root.sections:
+            current_sections.append(LatestSection.objects(object_id=sec)[0])
+
+        # move sections from old to temp
+
+        for s in old_sections:
+            v.save_section(s, "temp")
+            s.delete()
+
+        # move sections from latest to old
+
+        for s in current_sections:
+            v.save_section(s, "old")
+            s.delete()
+
+        # move sections from temp to latest
+
+        for s in TempSection.objects():
+            v.save_section(s, "latest")
+            s.delete()

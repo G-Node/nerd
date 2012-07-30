@@ -29,11 +29,11 @@ def test():
     
     # test_basic_search("Grant", "Google")
     
-    test_versioning()
+    # test_versioning()
 
     # test_ids()
 
-    # test_version_manager()
+    test_version_manager()
 
     # show_roots()
 
@@ -124,7 +124,8 @@ def test_ids():
 
 def test_version_manager():
     vm = VersionManager()
-    print vm.version_history(Root.objects()[1].id)
+    r = Root.objects()[1]
+    vm.switch_to_last(r.id)
 
 def show_roots():
     roots = Root.objects()
