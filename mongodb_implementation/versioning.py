@@ -53,11 +53,14 @@ class Version:
         # recursively add subsections
         print "add subsections"
         for sec in section.subsections:
-            print "subsection_id" + str(sec)
+            print "subsection_id =>  " + sec
             
             if (section_type == "latest"):
-                print "subsection_name" + str(TempSection.objects(object_id = sec)[0].name)
-                s.subsections.append(self.save_section(TempSection.objects(object_id = sec)[0], "latest"))
+
+                section = TempSection.objects(object_id = sec)[0]
+                print "subsection_name : " + str(section)
+
+                s.subsections.append(self.save_section(section, "latest"))
             
             elif (section_type == "old"):
                 print "subsection_name" + str(LatestSection.objects(object_id = sec)[0].name)
@@ -77,11 +80,11 @@ class Version:
         for section in s.subsections:
             print "[[ " + str(LatestSection.objects(object_id=section)) + " ]]"
             if (section_type == "latest"):
-                temp = TempSection.objects(object_id=section)[0]
-            elif (section_type == "old"):
                 temp = LatestSection.objects(object_id=section)[0]
-            else:
+            elif (section_type == "old"):
                 temp = OldSection.objects(object_id=section)[0]
+            else:
+                temp = TempSection.objects(object_id=section)[0]
 
             temp.parent = s.sid()
             temp.save()   
@@ -159,33 +162,86 @@ class VersionManager:
 
         v = Version() 
 
+        # take root object
         root = Root.objects(id=root_id)[0]
 
+        # take it ancestor (as object)
         previous_root = Root.objects(id=root.previous)[0]
 
+        # list for sections storage
         current_sections = []
         old_sections = []
 
-        for sec in previous_root.sections:
-            old_sections.append(OldSection.objects(object_id=sec)[0])
+        temp_collection = root.sections
 
-        for sec in root.sections:
-            current_sections.append(LatestSection.objects(object_id=sec)[0])
+        # add sections to temporary lists, recursively!
+        while (len(temp_collection) != 0):
+            next_collection = []
+            
+            for sec in temp_collection:
+                current_sections.append(LatestSection.objects(object_id=sec)[0])
+
+                for s in (LatestSection.objects(object_id=sec)[0]).subsections:
+                    next_collection.append(s)
+
+            temp_collection = next_collection
+
+        # the same operation for ancestor
+
+        temp_collection = previous_root.sections
+
+        while (len(temp_collection) != 0):
+            next_collection = []
+            
+            for sec in temp_collection:
+                old_sections.append(OldSection.objects(object_id=sec)[0])
+
+                for s in (OldSection.objects(object_id=sec)[0]).subsections:
+                    next_collection.append(s)
+
+            temp_collection = next_collection
+
+
+        # old code, delete
+        # for sec in previous_root.sections:
+        #     old_sections.append(OldSection.objects(object_id=sec)[0])
 
         # move sections from old to temp
 
+        old_counter = 0
         for s in old_sections:
             v.save_section(s, "temp")
             s.delete()
+            old_counter += 1
 
         # move sections from latest to old
 
+        current_counter = 0
         for s in current_sections:
             v.save_section(s, "old")
             s.delete()
+            current_counter += 1
 
         # move sections from temp to latest
+        for x in range(0,7):
+            print "----------------------"
+
+        temp_counter = 0
+        for sec in TempSection.objects():
+            print str(sec.id) + " : " + str(sec.name) + " : " + str(sec.object_id)
+            for subsec in sec.subsections:
+                print "sub:  " + subsec
+            print " "
+            temp_counter += 1
+
+        print "~~~ \n"
+        print "old_counter == " + str(old_counter)
+        print "current_counter == " + str(current_counter)
+        print "temp_counter == " + str(temp_counter)
+        print "current_sections == " + str(len(old_sections))
+        print "old_sections == " + str(len(current_sections))
 
         for s in TempSection.objects():
+            print "s.name == " + str(s.name)
             v.save_section(s, "latest")
             s.delete()

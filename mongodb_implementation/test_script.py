@@ -22,20 +22,20 @@ def test():
     connect("nerd")
 
     # test document insertion:
-    # test_document_insert("small_example.odml")
+    test_document_insert("small_example.odml")
     
     # test quering database:
     # test_database_queries()
     
-    # test_basic_search("Grant", "Google")
+    test_basic_search("Grant", "Google")
     
-    # test_versioning()
+    test_versioning()
 
     # test_ids()
 
-    test_version_manager()
+    show_roots()
 
-    # show_roots()
+    test_version_manager()
 
     # map/reduce: not ready yet
     # test_map_reduce("Grant", "Google")
