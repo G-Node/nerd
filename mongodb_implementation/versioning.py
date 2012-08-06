@@ -5,6 +5,16 @@ from elements.root import Root
 
 class Version:
 
+    def __init__(self):
+        self.to_delete = []
+
+    def clear_trash(self):
+        
+        for s in self.to_delete:
+            s.delete()
+
+        self.to_delete = []
+
     def save_root(self, root):
         r = Root()
 
@@ -26,16 +36,19 @@ class Version:
         #create new section
         if (section_type == "latest"):
             s = LatestSection()
+            print "[[[LATEST]]]"
         elif (section_type == "old"):
             s = OldSection()
+            print "{{{OLD}}}"
         else:
             s = TempSection()
+            print "(((TEMP)))"
 
         s.object_id  = section.object_id
-        print "OBJECT_ID: " + str(s.object_id)
+        # print "OBJECT_ID: " + str(s.object_id)
 
         s.name       = section.name
-        print "NAME: " + str(s.name)
+        # print "NAME: " + str(s.name)
 
         s.type_name  = section.type_name
         s.reference  = section.reference
@@ -51,52 +64,54 @@ class Version:
         self.rewrite_properties(section, s)
     
         # recursively add subsections
-        print "add subsections"
+        # print "add subsections"
         for sec in section.subsections:
-            print "subsection_id =>  " + sec
+            # print "subsection_id =>  " + sec
             
             if (section_type == "latest"):
 
                 section = TempSection.objects(object_id = sec)[0]
-                print "subsection_name : " + str(section)
+                # print "subsection_name : " + str(section)
 
                 s.subsections.append(self.save_section(section, "latest"))
             
             elif (section_type == "old"):
-                print "subsection_name" + str(LatestSection.objects(object_id = sec)[0].name)
+                # print "subsection_name" + str(LatestSection.objects(object_id = sec)[0].name)
                 s.subsections.append(self.save_section(LatestSection.objects(object_id = sec)[0], "old"))
 
             else:
-                print "subsection_name" + str(OldSection.objects(object_id = sec)[0].name)
+                # print "subsection_name" + str(OldSection.objects(object_id = sec)[0].name)
                 s.subsections.append(self.save_section(OldSection.objects(object_id = sec)[0], "temp"))
 
         
-        print "end. (" + str(s.sid()) + ") { " + str(s.name) + " }\n"
+        # print "end. (" + str(s.sid()) + ") { " + str(s.name) + " }\n"
             
         s.sid()
     
         # parent hash changed after subsections were added
         # so parent hash need to be updated for every subsection
-        for section in s.subsections:
-            print "[[ " + str(LatestSection.objects(object_id=section)) + " ]]"
+        for subsection in s.subsections:
+            # print "[[ " + str(LatestSection.objects(object_id=section)) + " ]]"
             if (section_type == "latest"):
-                temp = LatestSection.objects(object_id=section)[0]
+                temp = LatestSection.objects(object_id=subsection)[0]
             elif (section_type == "old"):
-                temp = OldSection.objects(object_id=section)[0]
+                temp = OldSection.objects(object_id=subsection)[0]
             else:
-                temp = TempSection.objects(object_id=section)[0]
+                temp = TempSection.objects(object_id=subsection)[0]
 
             temp.parent = s.sid()
             temp.save()   
 
         # save section in database
-        print "SID! for: " + str(s.name)
-        print s.sid()
-        print "END!\n\n"
+        # print "SID! for: " + str(s.name)
+        # print s.sid()
+        # print "END!\n\n"
 
         s.save()
 
         #return id
+        self.to_delete.append(section)
+        print s.name + " --> DEL"
         return s.sid()
 
 
@@ -160,6 +175,7 @@ class VersionManager:
 
     def switch_to_last(self, root_id):
 
+        print "\n --------------------- VERSION MANAGER ----------------------- \n"
         v = Version() 
 
         # take root object
@@ -209,18 +225,24 @@ class VersionManager:
         # move sections from old to temp
 
         old_counter = 0
-        for s in old_sections:
-            v.save_section(s, "temp")
-            s.delete()
-            old_counter += 1
+        for s in old_sections: 
+            if (TempSection.objects(object_id = s.object_id)).count() == 0:
+                print "[ " + s.name + " -> TEMP]"
+                v.save_section(s, "temp")
+                # s.delete()
+                # print "latest del"
+                old_counter += 1
 
         # move sections from latest to old
 
         current_counter = 0
         for s in current_sections:
-            v.save_section(s, "old")
-            s.delete()
-            current_counter += 1
+            if (OldSection.objects(object_id = s.object_id)).count() == 0:
+                print "[ " + s.name + " -> OLD]"
+                v.save_section(s, "old")
+                # s.delete()
+                # print "old del"
+                current_counter += 1
 
         # move sections from temp to latest
         for x in range(0,7):
@@ -242,6 +264,11 @@ class VersionManager:
         print "old_sections == " + str(len(current_sections))
 
         for s in TempSection.objects():
-            print "s.name == " + str(s.name)
-            v.save_section(s, "latest")
-            s.delete()
+            # print "s.name == " + str(s.name)
+            if (LatestSection.objects(object_id = s.object_id)).count() == 0:
+                print "[ " + s.name + " -> LATEST]"
+                v.save_section(s, "latest")
+                # s.delete()
+                # print "temp del"
+        
+        v.clear_trash()

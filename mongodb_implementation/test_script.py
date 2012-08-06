@@ -27,15 +27,17 @@ def test():
     # test quering database:
     # test_database_queries()
     
-    test_basic_search("Grant", "Google")
+    # test_basic_search("Grant", "Google")
     
     test_versioning()
 
     # test_ids()
 
-    show_roots()
+    # show_roots()
 
     test_version_manager()
+
+    inspect_collections()
 
     # map/reduce: not ready yet
     # test_map_reduce("Grant", "Google")
@@ -132,6 +134,21 @@ def show_roots():
 
     for r in roots:
         print "Root { " + str(r.id) + " } -> [ " + str(r.previous) + " ]"
+
+def inspect_collections():
+    print "\n\n\nCOLLECTIONS INSPECT\n"
+
+    print "LATEST"
+    for s in LatestSection.objects():
+        print "Section { " + str(s.object_id) + " : " + str(s.name) +" } "
+        for sub in s.subsections:
+            print "--> " + sub
+
+    print "\nOLD"
+    for s in OldSection.objects():
+        print "Section { " + str(s.object_id) + " : " + str(s.name) +" } "
+        for sub in s.subsections:
+            print "--> " + sub
 
 def test_map_reduce(p, v):
     db = Connection().nerd
