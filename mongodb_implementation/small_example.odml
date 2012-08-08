@@ -152,6 +152,16 @@
         <value>none<type>URL</type></value>
         <name>StimulusFileURL</name>
       </property>
+      <property>
+        <definition>The position of the stimulus on e.g the screen. Specified as a 2-tuple (x;y). By default this position refers to the top-left corner of the object or its bounding box.</definition>
+        <value>0<type>int</type></value>
+        <name>Position</name>
+      </property>
+      <property>
+        <definition>The spatial extend of the presented stimulus (width;height) e.g. (1024;768).</definition>
+        <value>0<type>int</type></value>
+        <name>SpatialExtent</name>
+      </property>
       <name>Stimulus</name>
       <section>
         <definition>Names (URLs) and times of recorded data files. Datasets are obtained during a Recording

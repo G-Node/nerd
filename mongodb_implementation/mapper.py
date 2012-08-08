@@ -99,14 +99,14 @@ class Mapper():
             v = Value()
 
             # copy value related fields
-            v.value       = value._value      
-            v.uncertainty =  value._uncertainty
-            v.unit        =  value._unit       
-            v.type_name   =  value._dtype 
-            v.definition  =  value._definition 
-            v.reference   =  value._reference  
-            v.filename    =  value._filename   
-            v.encoder     =  value._encoder    
+            v.value       = value.value      
+            v.uncertainty =  value.uncertainty
+            v.unit        =  value.unit       
+            v.type_name   =  value.dtype 
+            v.definition  =  value.definition 
+            v.reference   =  value.reference  
+            v.filename    =  value.filename   
+            v.encoder     =  value.encoder    
             v.checksum    =  value.checksum
 
             # add new object to target property values collection
