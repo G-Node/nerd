@@ -5,11 +5,11 @@ map = function() {
  	var id = this.object_id; 
  	this.properties.forEach(
  		function(z) { 
- 			if (z.name == "Grant") {
+ 			if (z.name == "Threshold") {
  					var check = false; 
  					z.values.forEach(
  						function(y) {
- 							if(y.value == "Google") 
+ 							if(y.value == "0.00999999977648") 
  							{
  								check=true;
  							}

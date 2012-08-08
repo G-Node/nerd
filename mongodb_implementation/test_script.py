@@ -21,14 +21,14 @@ def test():
     # connect with database
     connect("nerd")
 
-    # test document insertion:
-    for x in range(0,1000000):
-        test_document_insert("noise.xml")
+    # # test document insertion:
+    # for x in range(0,700):
+    #     test_document_insert("noise.xml")
     
     # test quering database:
     # test_database_queries()
     
-    # test_basic_search("Grant", "Google")
+    test_basic_search("NoiseType", "Gaussian")
     
     # test_versioning()
 
@@ -41,7 +41,7 @@ def test():
     # inspect_collections()
 
     # map/reduce: not ready yet
-    # test_map_reduce("Grant", "Google")
+    # test_map_reduce("NoiseType", "Gaussian")
 
 def test_property():
     v = Value()
@@ -151,33 +151,31 @@ def inspect_collections():
         for sub in s.subsections:
             print "--> " + sub
 
-def test_map_reduce(p, v):
+def test_map_reduce(prop, value):
     db = Connection().nerd
     mapper = Code("""
-        function () {
-        var i = this._id;
-        var id = this.object_id;
-    
-        if (this.isLatest == true) {
-            this.properties.forEach(
-                function(z) { 
-                    if (z.name == \"""" + p + """\" ) {
-                        var checkValue = false;
+        function() { 
+        var i = this._id; 
+        var id = this.object_id; 
+        this.properties.forEach(
+            function(z) { 
+                if (z.name == \"%s\") {
+                        var check = false; 
                         z.values.forEach(
-                            function(x) {
-                                if (x.value == \"""" + v + """\") {
-                                    checkValue = true;
+                            function(y) {
+                                if(y.value == \"%s\") 
+                                {
+                                    check=true;
                                 }
                             }
-                        );
-        
-                        if (checkValue) {
+                        ); 
+                        if(check) {
                             emit(i, id);
-                        }
-                    } 
-                } 
-            );
-        }""")
+                        } 
+                }
+            }
+        );
+    }""" % (prop, value))
 
     reducer = Code(""" 
            function (key, values) {
@@ -186,9 +184,9 @@ def test_map_reduce(p, v):
                 }
         """)
 
-    result = db.things.map_reduce(mapper, reducer, "myresults")
-    for doc in result.find():
-        print doc
+    result = db.latest_section.map_reduce(mapper, reducer, "myresults")
+    # for doc in result.find():
+    #     print doc
 
 # check how long test was executed
 if __name__ == '__main__':
