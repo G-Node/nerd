@@ -38,6 +38,7 @@ class Mapper():
         for section in odml_root.sections:
             s_id = self.section_save(section)
             self.client.create_edge(r_id, "root-section", s_id)
+            self.client.create_edge(s_id, "section-root", r_id)
     
     
     def section_save(self, source_section):
@@ -52,12 +53,51 @@ class Mapper():
         output['mapping']    = source_section.mapping
         output['link']       = source_section.link
         output['include']    = source_section.include
+        
+        properties = []
+
+        for pro in source_section.properties:
+
+            print "property.."
+
+            p = {}
+
+            p["name"]            = pro.name 
+            p["definition"]      = pro.definition
+            p["mapping"]         = pro.mapping 
+            p["dependency"]      = pro.dependency
+            p["dependencyValue"] = pro.dependency_value
+
+            values = []
+
+            for value in pro.values:
+
+                v = {}
+
+                v["value"]       = value.value      
+                v["uncertainty"] = value.uncertainty
+                v["unit"]        = value.unit       
+                v["type_name"]   = value.dtype 
+                v["definition"]  = value.definition 
+                v["reference"]   = value.reference  
+                v["filename"]    = value.filename   
+                v["encoder"]     = value.encoder    
+                v["checksum "]   = value.checksum
+
+                values.append(v)
+
+            p['values'] = values
+
+            properties.append(p)
+
+        output['properties'] = properties
 
         section_id = ((self.client.create_vertex(output)).get_results()[0]).get_id()
-    
+
         for subsection in source_section.sections:
             s_id = self.section_save(subsection)
             self.client.create_edge(section_id, "section-section", s_id)
+            self.client.create_edge(s_id, "section-section", section_id)
 
         return section_id
 
