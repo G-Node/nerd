@@ -28,7 +28,7 @@ It's intermediate layer between python driver and orientDB instance.
 * Enable orientdb connection in configuration file: **/rexster/rexster-server/rexster.xml**
     
         <graph>
-            <graph-name>nerd_db</graph-name>
+            <graph-name>orientdbsample</graph-name>
             <graph-type>orientgraph</graph-type>
             <graph-location>local:/home/mokrzu/Downloads/orientdb-graphed-1.0.1/databases/nerd_db</graph-location>
             <extensions>...</extensions>

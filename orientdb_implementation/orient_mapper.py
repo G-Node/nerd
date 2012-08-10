@@ -2,13 +2,16 @@ from bulbs.rexster import RexsterClient, Config
 import simplejson as sj
 from odml.tools.xmlparser import load
 
+from time import time
+
 class Mapper():
 
     def __init__(self):
         config = Config("http://localhost:8182/graphs/orientdbsample", username="admin", password="admin")
         self.client = RexsterClient(config)
 
-        self.root_save('small_example.odml')
+        for x in range(0, 10):
+            self.root_save('small_example.odml')
 
     def show_vertices(self):
         vertices = client.get_all_vertices()
@@ -20,7 +23,7 @@ class Mapper():
 
     def root_save(self, root_input):
     
-        print "mapping.."
+        # print "mapping.."
     
         odml_root = load(root_input)
     
@@ -33,7 +36,7 @@ class Mapper():
     
         r_id = ((self.client.create_vertex(output)).get_results()[0]).get_id()
 
-        print "Root ID = " + r_id
+        # print "Root ID = " + r_id
 
         for section in odml_root.sections:
             s_id = self.section_save(section)
@@ -58,7 +61,7 @@ class Mapper():
 
         for pro in source_section.properties:
 
-            print "property.."
+            # print "property.."
 
             p = {}
 
@@ -102,4 +105,13 @@ class Mapper():
         return section_id
 
 if __name__ == '__main__':
+
+    print "<< ORIENT START >>"
+    start = time()
+    
     m = Mapper()
+    
+    end = time()
+    print "<< ORIENT STOP >>"
+    
+    print "Execution time: %s seconds." % (end - start)
