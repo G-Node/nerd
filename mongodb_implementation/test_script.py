@@ -110,6 +110,8 @@ def test_basic_search(pro, value):
     #     print s.id
     # print "----------------"
 
+    return result_set
+
 def test_versioning():
     r = Root.objects()[0]
     print "TESTING VERSIONING: " + str(r.__class__)
@@ -187,6 +189,8 @@ def test_map_reduce(prop, value):
     result = db.latest_section.map_reduce(mapper, reducer, "myresults")
     # for doc in result.find():
     #     print doc
+
+    return result
 
 # check how long test was executed
 if __name__ == '__main__':
