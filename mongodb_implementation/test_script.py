@@ -21,14 +21,14 @@ def test():
     # connect with database
     connect("nerd")
 
-    # # test document insertion:
-    # for x in range(0,700):
-    #     test_document_insert("noise.xml")
+    # # # test document insertion:
+    # for x in range(0,10000):
+    #     test_document_insert("baseline.xml")
     
     # test quering database:
     # test_database_queries()
     
-    test_basic_search("NoiseType", "Gaussian")
+    # test_basic_search("NoiseType", "Gaussian")
     
     # test_versioning()
 
@@ -41,7 +41,7 @@ def test():
     # inspect_collections()
 
     # map/reduce: not ready yet
-    # test_map_reduce("NoiseType", "Gaussian")
+    test_map_reduce("NoiseType", "Gaussian")
 
 def test_property():
     v = Value()
@@ -105,10 +105,10 @@ def test_basic_search(pro, value):
 
     result_set = LatestSection.objects(__raw__=eval(query)[0])
     
-    print "---RESULT-SET---"
-    for s in result_set:
-        print s.id
-    print "----------------"
+    # print "---RESULT-SET---"
+    # for s in result_set:
+    #     print s.id
+    # print "----------------"
 
 def test_versioning():
     r = Root.objects()[0]
