@@ -35,7 +35,7 @@ def test_map_reduce_query(pro_name, value_name):
     print "Found %s sections. Execution time: %s seconds." % (result.count(), end - start)
 
 if __name__ == '__main__':
-    print "<< TESTS START >>"
+    print "<< MONGO TESTS START >>"
 
     connect('nerd')
     
@@ -51,4 +51,4 @@ if __name__ == '__main__':
     # TESTING MAP/REDUCE
     test_map_reduce_query("NoiseType", "Gaussian")
 
-    print "<< TESTS STOP >>"
+    print "<< MONGO TESTS STOP >>"
