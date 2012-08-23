@@ -156,28 +156,23 @@ def inspect_collections():
 def test_map_reduce(prop, value):
     db = Connection().nerd
     mapper = Code("""
-        function() { 
-        var i = this._id; 
-        var id = this.object_id; 
-        this.properties.forEach(
-            function(z) { 
-                if (z.name == \"%s\") {
-                        var check = false; 
-                        z.values.forEach(
-                            function(y) {
-                                if(y.value == \"%s\") 
-                                {
-                                    check=true;
-                                }
-                            }
-                        ); 
-                        if(check) {
-                            emit(i, id);
-                        } 
-                }
-            }
-        );
-    }""" % (prop, value))
+         function() { 
+         // check if value is correct
+          var checkVal = function(elem, index, array) {
+            return (elem.value == \"%s\");
+          };
+          
+          // check if property is correct
+          var checkPro = function(elem, index, array) {
+            return (elem.name == \"%s\" && (elem.values.filter(checkVal)).length > 0);
+          };
+          
+          // emit 
+          if ((this.properties.filter(checkPro)).length > 0) {
+           emit(this._id, this.name);
+          }
+        }
+    """ % (value, prop))
 
     reducer = Code(""" 
            function (key, values) {

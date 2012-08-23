@@ -39,7 +39,7 @@ if __name__ == '__main__':
 
     connect('nerd')
     
-    numbers = [1, 100, 1000] # specify amount of documents here
+    numbers = [1] # specify amount of documents here
 
     # TESTING INERTIONS
     for n in numbers:

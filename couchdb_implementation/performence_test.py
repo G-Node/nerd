@@ -16,7 +16,7 @@ def test_insertion(count):
 if __name__ == '__main__':
     print "<< COUCH TESTS START >>"
 
-    numbers = [9] # specify amount of documents here
+    numbers = [42000] # specify amount of documents here
 
     # TESTING INERTIONS
     for n in numbers:
