@@ -1,34 +1,43 @@
 from odml.tools.xmlparser import load
-from time import time
-import simplejson as sj
 import couchdb
 
+# class which provides insertion to CouchDB database
 class CouchMapper():
 
     def __init__(self):
-        couch = couchdb.Server()
+        # initialize connection to 'nerd' databse
+        couch = couchdb.Server()  
         self.db = couch['nerd']
 
+
+    # save file to database
     def root_save(self, doc_path):
+        # use python-odml driver to load document
         odml_root = load(doc_path)
 
+        # create new dictionary wich will be changed to json by driver
         output = {}
-    
+        
+        # fill default fields
         output['author']     = odml_root.author
         output['date']       = odml_root.date
         output['repository'] = odml_root.repository
         output['version']    = odml_root.version
 
+        # save root document
         self.db.save(output)
 
+        # save sections using section_save method
         for section in odml_root.sections:
             self.section_save(section)      
 
-
+    # save section to database
     def section_save(self, source_section):
-    
+        
+        # dictionary for storing data, same as in root_save
         output = {}
-    
+        
+        # fill default fields
         output['name']       = source_section.name
         output['type_name']  = source_section.type
         output['reference']  = source_section.reference
@@ -38,8 +47,10 @@ class CouchMapper():
         output['link']       = source_section.link
         output['include']    = source_section.include
         
+        # array to temporary store properties
         properties = []
 
+        # add properties
         for pro in source_section.properties:
 
             p = {}
@@ -50,6 +61,7 @@ class CouchMapper():
             p["dependency"]      = pro.dependency
             p["dependencyValue"] = pro.dependency_value
 
+            # for each property add values
             values = []
 
             for value in pro.values:
@@ -68,26 +80,17 @@ class CouchMapper():
 
                 values.append(v)
 
+            # save values
             p['values'] = values
 
             properties.append(p)
 
+        # save properties
         output['properties'] = properties
 
+        # send completed document to databse
         self.db.save(output)
 
+        # (recursiv) saving subsections
         for subsection in source_section.sections:
             self.section_save(subsection)
-
-if __name__ == '__main__':
-
-    print "<< COUCH START >>"
-    start = time()
-    
-    m = CouchMapper()
-    m.root_save("baseline.xml")
-
-    end = time()
-    print "<< COUCH STOP >>"
-    
-    print "Execution time: %s seconds." % (end - start)
