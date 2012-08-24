@@ -29,6 +29,10 @@ reduce = function(key, value) {
 	return value;
 }
 
+
+// --------------------------------
+// map function copied from Couch implementation
+
 map = function() { 
  // check if value is correct
   var checkVal = function(elem, index, array) {
