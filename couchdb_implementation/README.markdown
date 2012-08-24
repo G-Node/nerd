@@ -9,6 +9,7 @@ Easiest way to do that, is to use Futon app: http://localhost:5984/_utils/
 
 For mapping I used couchdb-python driver: http://packages.python.org/CouchDB/getting-started.html
 Interaction with view has been done by REST using requests moduel: http://docs.python-requests.org/en/latest/index.html
+
 ---
 
 ### Directory structure:
