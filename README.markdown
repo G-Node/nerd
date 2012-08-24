@@ -5,4 +5,6 @@
 
 **mongodb_implementation** directory has version, which tries to implement data model similar to that used in git, using mongodb document database.
 
-**orientdb_implementation** uses graph-document database to provide solution for odml <-> database mapping
+**couch_implementation** directory contains the same solution, implemented using CouchDB database.
+
+**orientdb_implementation** uses graph-document database to provide solution for odml <-> database mapping.
