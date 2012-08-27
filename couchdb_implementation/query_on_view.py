@@ -5,8 +5,8 @@ import json
 
 start = time()
 
-prop = "TestPro1"
-value = "TestValue1"
+prop = "ResetPotential"
+value = "0.0"
 
 # send query request to database
 r = requests.get("http://localhost:5984/nerd/_design/nerd/_view/emiter?key=[%22" + prop + "%22,%22" + value +"%22]") 
